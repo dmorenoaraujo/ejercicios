@@ -7,7 +7,7 @@ $conn = new mysqli("localhost", "root", "P15!1754123m", "colegio");
 if ($conn->connect_errno != 0){
   echo "ERROR DE CONEXIÓN, REVISE CREDENCIALES Y/O SERVIDOR";
 }else{
-  echo "CONECTADO";
+  echo "CONECTADO CORRECTAMENTE";
 }
 
 var_dump($conn);
