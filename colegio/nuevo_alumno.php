@@ -21,7 +21,7 @@
                 //var_dump($conn);
 
                 var_dump($_FILES);
-                move_uploaded_file($_FILES['adjuntos'] [tmp_name], '/tmp/'.$_FILES['adjuntos'] [name]);
+                move_uploaded_file($_FILES['adjuntos'] [tmp_name], '/var/www/html/colegio/imagenes/'.$_FILES['adjuntos'] [name]);
 
                 $sql = "INSERT INTO alumno (nombre,apellidos,fecha_nacimiento,curso_id,adjunto) 
                         VALUES (

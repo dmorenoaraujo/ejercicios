@@ -18,75 +18,54 @@
 
             <?php
             $conn = new mysqli("localhost", "root", "P15!1754123m", "colegio");
-
-            //var_dump($conn);
-
             $sql = "SELECT * FROM alumno";
-
-            //var_dump($sql);
-
             $result = $conn->query($sql);
 
-            //var_dump($result);
-
-
-
             $primerafila= $result->fetch_assoc();
-
-            //var_dump($primerafila);
-
+            
             $nombrecolumnas=array_keys($primerafila);
-
-
-
-
-
-
-            //var_dump($nombrecolumnas);
-
+            
             echo '<table id="mitabla" class="display" width="100%" cellspacing="0">';
             echo "<thead>";
             echo "<tr>";
             foreach ($nombrecolumnas as $nombrecolumna){
               echo "<td>" . $nombrecolumna . "</td>";
             }
-
-
-
-
             echo "</tr>";
             echo "</thead>";
             echo "<tbody>";
 
-            echo "<tr>";
-
-            foreach($primerafila as $elementosprimerafila){
-              echo "<td>". $elementosprimerafila . "</td>";
-            }
-            echo "</tr>";
+            listar($primerafila);{
+              //echo "<td>". $elementosprimerafila . "</td>";            
+}
 
             while ($fila=$result->fetch_assoc()){
-              echo "<tr>";
-              echo "<td>".$fila['id']."</td>";
-              echo "<td>".$fila['curso_id']."</td>";
-              echo "<td>".$fila['nombre']."</td>";
-              echo "<td>".$fila['apellidos']."</td>";
-              echo "<td>".$fila['dni']."</td>";
-              echo "<td>".$fila['nota']."</td>"; 
-              echo "<td>".$fila['fecha_nacimiento']."</td>";
-              if ($fila['matriculado']==1){
-                echo "<td>Si</td>";
-              }else{
-                echo "<td>No</td>";
-              };
-              echo "<td><img src='/localhost/../../../../tmp/".$fila['adjunto']."'></td>";
-              echo "</tr>";
+                listar($fila);
             }
             echo "</tbody>";
             echo "</table>";
 
             $conn->close();
 
+            
+            
+            function listar($item){
+                echo "<tr>";
+                echo "<td>".$item['id']."</td>";
+                echo "<td>".$item['curso_id']."</td>";
+                echo "<td>".$item['nombre']."</td>";
+                echo "<td>".$item['apellidos']."</td>";
+                echo "<td>".$item['dni']."</td>";
+                echo "<td>".$item['nota']."</td>"; 
+                echo "<td>".$item['fecha_nacimiento']."</td>";
+                if ($item['matriculado']==1){
+                echo "<td>Si</td>";
+                }else{
+                echo "<td>No</td>";
+                };
+                echo "<td><img src='/var/www/html/colegio/imagenes/".$item['adjunto']."'></td>";
+                echo "</tr>";                
+            }
             ?>
 
             <button class="btn btn-info" onclick="location.href='formulario_alumno.php'" type="button">Formulario de alta</button>
