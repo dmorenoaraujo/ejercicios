@@ -18,6 +18,7 @@
 
             <?php
             $conn = new mysqli("localhost", "root", "P15!1754123m", "colegio");
+            mysqli_set_charset($conn, 'utf8');
             $sql = "SELECT * FROM alumno";
             $result = $conn->query($sql);
 
@@ -29,7 +30,7 @@
             echo "<thead>";
             echo "<tr>";
             foreach ($nombrecolumnas as $nombrecolumna){
-              echo "<td>" . $nombrecolumna . "</td>";
+              echo "<td style='text-transform: uppercase'>" . $nombrecolumna . "</td>";
             }
             echo "</tr>";
             echo "</thead>";
@@ -56,14 +57,15 @@
                 echo "<td>".$item['nombre']."</td>";
                 echo "<td>".$item['apellidos']."</td>";
                 echo "<td>".$item['dni']."</td>";
-                echo "<td>".$item['nota']."</td>"; 
-                echo "<td>".$item['fecha_nacimiento']."</td>";
+                echo "<td>". $nota = number_format($item['nota'],2,',','.') . "</td>"; 
+                echo "<td>". date ("d-m-Y", strtotime ($item['fecha_nacimiento']))."</td>";
                 if ($item['matriculado']==1){
                 echo "<td>Si</td>";
                 }else{
                 echo "<td>No</td>";
                 };
                 echo "<td><img src='/var/www/html/colegio/imagenes/".$item['adjunto']."'></td>";
+                echo "<td>".$item['fecha_alta']."</td>";
                 echo "</tr>";                
             }
             ?>
@@ -79,13 +81,15 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/colreorder/1.3.3/js/dataTables.colReorder.min.js"></script>
         <script>
             $(document).ready(function () {
                 $('#mitabla').dataTable({
                     "language": {
                         "url": "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
                     },
-                    "lengthMenu": [50, 10, 25]
+                    "lengthMenu": [50, 10, 25],
+                    "colReorder": true,
                 });
             });
         </script>

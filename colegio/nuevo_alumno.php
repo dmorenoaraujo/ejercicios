@@ -13,7 +13,7 @@
 
 
                 $conn = new mysqli("localhost", "root", "P15!1754123m", "colegio");
-                
+                mysqli_set_charset($conn, 'utf8');
                 if ($conn->connect_errno != 0){
                   echo "ERROR DE CONEXIÓN, REVISE CREDENCIALES Y/O SERVIDOR";
                 }
@@ -27,7 +27,7 @@
                         VALUES (
                             '" . $_POST['nombrecito1'] . "',
                             '" . $_POST['apellidos']. "',
-                            '" . $_POST['fecha_nacimiento']. "',
+                            '" . date ("Y-m-d", strtotime ($_POST['fecha_nacimiento'])). "',
                             '" . $_POST['curso_id'] [id]. "',
                             '" . $_FILES['adjuntos'] [name]. "')";
 
