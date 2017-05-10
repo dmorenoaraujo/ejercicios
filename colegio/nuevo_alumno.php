@@ -14,6 +14,7 @@
 
                 $conn = new mysqli("localhost", "root", "P15!1754123m", "colegio");
                 mysqli_set_charset($conn, 'utf8');
+                
                 if ($conn->connect_errno != 0){
                   echo "ERROR DE CONEXIÓN, REVISE CREDENCIALES Y/O SERVIDOR";
                 }
@@ -23,12 +24,13 @@
                 var_dump($_FILES);
                 move_uploaded_file($_FILES['adjuntos'] [tmp_name], '/var/www/html/colegio/imagenes/'.$_FILES['adjuntos'] [name]);
 
-                $sql = "INSERT INTO alumno (nombre,apellidos,fecha_nacimiento,curso_id,adjunto) 
+                $sql = "INSERT INTO alumno (nombre,apellidos,fecha_nacimiento,curso_id,nota,adjunto) 
                         VALUES (
                             '" . $_POST['nombrecito1'] . "',
                             '" . $_POST['apellidos']. "',
                             '" . date ("Y-m-d", strtotime ($_POST['fecha_nacimiento'])). "',
                             '" . $_POST['curso_id'] [id]. "',
+                            '" . str_replace (",",".",$_POST['nota']). "', 
                             '" . $_FILES['adjuntos'] [name]. "')";
 
                 $conn->query($sql);

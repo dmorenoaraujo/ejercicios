@@ -17,7 +17,7 @@
                 <label for="apellidos">Apellidos</label>
                 <input class="form-control" type="text" name="apellidos" id="apellidos" placeholder="APELLIDOS">
                 <label for="fecha">Fecha de Nacimiento</label>
-                <input class="form-control" type="text" name="fecha_nacimiento" id="fecha" placeholder="aaaa-mm-dd">
+                <input class="form-control" type="text" name="fecha_nacimiento" id="fecha" placeholder="dd-mm-aaaa">
                 
                 <label for="cursos">Curso:</label>
 
@@ -40,6 +40,8 @@
 
                 ?>
                 <br>
+                <label for="nota">Nota</label>
+                <input class="form-control" type="text" name="nota" id="nota" placeholder="Nota">
                 <label for="ficheros">Añadir imagenes</label>
                 <input class="form-control" type="file" name="adjuntos" id="ficheros">
                 <input type="submit" value="Enviar">    
