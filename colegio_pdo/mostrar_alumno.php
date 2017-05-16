@@ -20,7 +20,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>ALUMNOS DEL COLEGIO MOLÓN</h1>
+            <h1>MOSTRAR UN ALUMNO</h1>
 
             <?php
             ini_set('display_errors',1);
@@ -32,7 +32,7 @@
             
             //mysqli_set_charset($conn, 'utf8');
             
-            $sql = "SELECT * FROM alumno";
+            $sql = "SELECT * FROM alumno WHERE id=2";
 
             //$result = $conn->query($sql);
             
@@ -44,59 +44,27 @@
                 return false;
             }
             
-            $primerafila= $st->fetch(PDO::FETCH_ASSOC);
+            $alumno= $st->fetch(PDO::FETCH_ASSOC);
             
             //$nombrecolumnas=array_keys($primerafila);
             
-            echo '<table id="mitabla" class="display" width="100%" cellspacing="0">';
+            echo '<table width="100%">';
             echo "<thead>";
-            echo "<tr>";
-            foreach ($primerafila as $clave => $nombrecolumna){
-                //var_dump ($clave);
-                //var_dump ($nombrecolumna);
-                if ($clave == 'curso_id'){
-                    echo "<td>" . str_replace ("curso_id","Nº Curso",$clave) . "</td>";
-                } else if ($clave == 'nota'){
-                    echo "<td>" . $clave . "</td>";
-                } else if ($clave == 'fecha_nacimiento' || 'fecha_alta'){
-                    echo "<td style='text-align: center'>" . str_replace ("fecha_","Fecha de ",$clave) . "</td>";
-                } else {
-                    echo "<td>" . $clave . "</td>";
+            echo "<tr><td>CAMPO</td><td>VALOR</td></thead><tbody>";
+            foreach($alumno as $clave=>$valor){
+                if ($clave == 'adjunto'){
+                    echo "<tr><td>".$clave."</td>";
+                    echo "<td><img src='uploads/".$valor."'></td></tr>";
+                }else {
+                echo "<tr>";
+                echo "<td>".$clave."</td>";
+                echo "<td>".$valor."</td>";
+                echo "</tr>";
                 }
             }
+            echo "</tbody></table>";    
             
-            echo "<td>Acciones</td></tr>";
-            echo "</thead>";
-            echo "<tbody>";
 
-            listar($primerafila);
-              //echo "<td>". $elementosprimerafila . "</td>";            
-
-
-            while ($fila=$st->fetch(PDO::FETCH_ASSOC)){
-                listar($fila);
-            }
-            echo "</tbody>";
-            echo "</table>";
-
-            //$conn->close();
-
-            
-            
-            function listar($item){
-                echo "<tr>";
-                echo "<td>".$item['id']."</td>";
-                echo "<td>".$item['curso_id']."</td>";
-                echo "<td>".$item['nombre']."</td>";
-                echo "<td>".$item['apellidos']."</td>";
-                echo "<td>".$item['dni']."</td>";
-                echo "<td style='text-align:right'>". $nota = number_format($item['nota'],2,',','.') . "</td>"; 
-                echo "<td  style='text-align: center'>". date ("d-m-Y", strtotime ($item['fecha_nacimiento']))."</td>";
-                echo "<td><img src='uploads/".$item['adjunto']."'></td>";
-                echo "<td>".$item['fecha_alta']."</td>";
-                echo "<td><a href='editar_alumno.php'>Editar</a><br><a href='eliminar_alumno.php'>Eliminar</a></td>";
-                echo "</tr>";                
-            }
             ?>
 
             <button class="btn btn-info" onclick="location.href='formulario_alumno.php'" type="button">Formulario de alta</button>

@@ -9,19 +9,24 @@
     <body>
         <div class="container">
             
-            <h1>FORMULARIO ALUMNOS</h2>
+            <h1>FORMULARIO ALUMNOS</h1>
 
             <form action="nuevo_alumno.php" method="post" enctype="multipart/form-data">
-                <label for="nombre">Nombre</label>
-                <input class="form-control" type="text" name="nombrecito1" id="nombrecito2" placeholder="NOMBRE">
-                <label for="apellidos">Apellidos</label>
+                <label for="nombre">NOMBRE</label>
+                <input class="form-control" type="text" name="nombre" id="nombre" placeholder="NOMBRE">
+                <label for="apellidos">APELLIDOS</label>
                 <input class="form-control" type="text" name="apellidos" id="apellidos" placeholder="APELLIDOS">
-                <label for="fecha">Fecha de Nacimiento</label>
+                <label for="dni">DNI</label>
+                <input class="form-control" type="text" name="dni" id="dni" placeholder="01234567">
+                <label for="fecha">FECHA DE NACIMIENTO</label>
                 <input class="form-control" type="text" name="fecha_nacimiento" id="fecha" placeholder="dd-mm-aaaa">
                 
-                <label for="cursos">Curso:</label>
+                <label for="cursos">CURSO:</label>
 
                 <?php
+                ini_set('display_errors',1);
+                ini_set('diplay_startup_errors',1);
+                error_reporting(E_ALL);
                 //$conn = new mysqli("localhost", "root", "P15!1754123m", "colegio");
                 //mysqli_set_charset($conn, 'utf8'); // con esta línea habilitamos los caracteres especiales para la conexión actual
                 $db = new PDO('mysql:host=localhost;dbname=colegio;charset=utf8','root','P15!1754123m');
@@ -42,7 +47,7 @@
                 
                 
                 
-                echo '<select id="cursos" name="curso_id">
+                echo '<select id="curso" name="curso_id">
                         <option selected disabled>Elija</option>'
                 ;
                             while ($opcion=$st->fetch(PDO::FETCH_ASSOC)){

@@ -7,7 +7,7 @@
     <body>
         <div class="container">
             
-            <h1>ALTA DE ALUMNO REALIZADA</h1>
+            <h1>MODIFICACIÓN DE ALUMNO REALIZADA</h1>
             <?php
                 ini_set('display_errors',1);
                 ini_set('diplay_startup_errors',1);
@@ -33,7 +33,7 @@
                 
                 move_uploaded_file($_FILES['adjuntos']['tmp_name'], 'uploads/'. $nombreAdjunto .'.'.$ext);
 
-                $sql = "INSERT INTO alumno (nombre,apellidos,fecha_nacimiento,curso_id,nota,adjunto) 
+                $sql = "UPDATE alumno (nombre,apellidos,fecha_nacimiento,curso_id,nota,adjunto) 
                         VALUES (
                             '" . $_POST['nombre'] . "',
                             '" . $_POST['apellidos']. "',
