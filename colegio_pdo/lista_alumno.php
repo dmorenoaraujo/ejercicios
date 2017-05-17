@@ -94,7 +94,8 @@
                 echo "<td  style='text-align: center'>". date ("d-m-Y", strtotime ($item['fecha_nacimiento']))."</td>";
                 echo "<td><img src='uploads/".$item['adjunto']."'></td>";
                 echo "<td>".$item['fecha_alta']."</td>";
-                echo "<td><a href='editar_alumno.php'>Editar</a><br><a href='eliminar_alumno.php'>Eliminar</a></td>";
+                echo "<td><a href='editar_alumno.php?id=".$item['id']."'>Editar</a>"
+                     ."<br><a href='eliminar_alumno.php?id=".$item['id']."'>Eliminar</a></td>";
                 echo "</tr>";                
             }
             ?>

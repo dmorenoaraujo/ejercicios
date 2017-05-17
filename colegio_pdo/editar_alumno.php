@@ -6,6 +6,10 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="/resources/demos/style.css">
         <style>
+            label{
+                text-transform: uppercase;
+                font-family: Verdana;
+            }
             button{
                 margin: 2rem;
             }
@@ -23,13 +27,10 @@
                 ini_set('diplay_startup_errors',1);
                 error_reporting(E_ALL);
                 
-                //$conn = new mysqli("localhost", "root", "P15!1754123m", "colegio");
-                //mysqli_set_charset($conn, 'utf8'); // con esta línea habilitamos los caracteres especiales para la conexión actual
-                
                 $db = new PDO('mysql:host=localhost;dbname=colegio;charset=utf8','root','P15!1754123m');
                 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 
-                $sql = "SELECT * FROM alumno WHERE id=5";
+                $sql = "SELECT * FROM alumno WHERE id=".$_GET['id'];
 
                 //$result = $conn->query($sql);
             

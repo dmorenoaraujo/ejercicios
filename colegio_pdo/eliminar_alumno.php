@@ -7,7 +7,7 @@
     <body>
         <div class="container">
             
-            <h1>MODIFICACIÓN DE ALUMNO REALIZADA</h1>
+            <h1>ALUMNO BORRADO</h1>
             <?php
                 ini_set('display_errors',1);
                 ini_set('diplay_startup_errors',1);
@@ -15,23 +15,9 @@
 
                 $db = new PDO('mysql:host=localhost;dbname=colegio;charset=utf8','root','P15!1754123m');
                 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-               
-                $nombreAdjunto = md5(uniqid());
-                $ext = end(explode(".", $_FILES['adjuntos']['name']));
-                var_dump($ext);
-                var_dump($_FILES);
-                move_uploaded_file($_FILES['adjuntos']['tmp_name'], 'uploads/'. $nombreAdjunto .'.'.$ext);
-                $sql = "UPDATE alumno 
-                        SET   nombre='".$_POST['nombre']."', "
-                            ."apellidos='".$_POST['apellidos']."',"
-                            ."dni='".$_POST['dni']."',"
-                            ."curso_id=".$_POST['curso_id'].","
-                            ."nota=".str_replace (",",".",$_POST['nota']).","
-                            ."fecha_nacimiento='".date ("Y-m-d", strtotime ($_POST['fecha_nacimiento']))."',"
-                            ."adjunto='".$nombreAdjunto.".".$ext."'"
-                       ."WHERE id=".$_POST['id'].";"
-                ;
-                               
+                
+                $sql = "DELETE FROM alumno WHERE id=".$_GET['id'];
+                                               
                 try {
                     $st = $db->prepare($sql);
                     $st->execute();/*die('1');*/
@@ -42,7 +28,6 @@
                 
 
             ?>
-            <button class="btn btn-info" onclick="location.href='formulario_alumno.php'" type="button">Formulario de alta</button>
             <button class="btn btn-info" onclick="location.href='lista_alumno.php'" type="button">Listado de alumnos</button>
         </div>
 
