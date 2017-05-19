@@ -8,6 +8,7 @@
         <div class="container">
             
             <h1>ALUMNO BORRADO</h1>
+            
             <?php
                 ini_set('display_errors',1);
                 ini_set('diplay_startup_errors',1);
@@ -25,7 +26,9 @@
                     echo $e->getMessage();/*die('2');*/
                     return false;
                 }
-                
+            //var_dump($_SERVER);
+            //header('Location: http://localhost/colegio_pdo/lista_alumno.php'); con este comando redirigimos a la url del listado
+            header('Location: '.$_SERVER['HTTP_REFERER']); // Aqui especificamos que vuelva a la url de la que ha venido 
 
             ?>
             <button class="btn btn-info" onclick="location.href='lista_alumno.php'" type="button">Listado de alumnos</button>

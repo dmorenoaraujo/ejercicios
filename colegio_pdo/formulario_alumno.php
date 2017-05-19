@@ -19,7 +19,7 @@
                 <label for="dni">DNI</label>
                 <input class="form-control" type="text" name="dni" id="dni" placeholder="01234567">
                 <label for="fecha">FECHA DE NACIMIENTO</label>
-                <input class="form-control" type="text" name="fecha_nacimiento" id="fecha" placeholder="dd-mm-aaaa">
+                <input class="form-control" type="text" name="fecha_nacimiento" id="fecha">
                 
                 <label for="cursos">CURSO:</label>
 
@@ -80,8 +80,8 @@
                 $( "#fecha" ).datepicker({
                     changeMonth: true,
                     changeYear: true,
-                    showAnim: 'bounce', // con esta línea añadimos animación al datepicker
-                    
+                    showAnim: 'bounce' // con esta línea añadimos animación al datepicker
+                    dateFormat:'dd-mm-yy'       
                 });
                 // con este comando tambien se puede hacer la animación de datepicker $( "#fecha" ).datepicker( "option", "showAnim", "bounce" );
             } );

@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
         <style>
             h1{
@@ -20,19 +20,45 @@
     </head>
     <body>
         <div class="container">
-            <h1>ALUMNOS DEL COLEGIO CON DATATABLE</h1>
+            <h1>ALUMNOS DEL COLEGIO CON QUERY</h1>
 
             <?php
-            ini_set('display_errors',1);
-            ini_set('diplay_startup_errors',1);
-            error_reporting(E_ALL);
+            //ini_set('display_errors',1);
+            //ini_set('diplay_startup_errors',1);
+            //error_reporting(E_ALL);
                 
             $db = new PDO('mysql:host=localhost;dbname=colegio;charset=utf8','root','P15!1754123m');
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            //mysqli_set_charset($conn, 'utf8');
+            //var_dump ($_SERVER['QUERY_STRING']);
             
-            $sql = "SELECT * FROM alumno";
+            list($sort,$order)=explode("&",$_SERVER['HTTP_REFERER']);
+            $sort=end(explode("=",$sort));
+            $order=end(explode("=",$order));
+            
+            var_dump($_SERVER['HTTP_REFERER']);
+            var_dump($sort);
+            
+            var_dump($order);
+            
+            var_dump($_GET);
+           
+            
+            if ( $_GET == NULL ){
+                $sql = "SELECT * FROM alumno"
+                ;   
+            } else if($_GET[order] === $order){
+                if($sort='ASC'){
+                    $sort='DESC';
+                }else{
+                    $sort='ASC';
+                }
+                $sql = "SELECT * FROM alumno
+                        ORDER BY ". $_GET[order]." ".$sort;
+            } else {
+                $sql = "SELECT * FROM alumno
+                        ORDER BY ". $_GET[order];    
+            };
 
             //$result = $conn->query($sql);
             
@@ -55,13 +81,11 @@
                 //var_dump ($clave);
                 //var_dump ($nombrecolumna);
                 if ($clave == 'curso_id'){
-                    echo "<td>" . str_replace ("curso_id","Nº Curso",$clave) . "</td>";
-                } else if ($clave == 'nota'){
-                    echo "<td>" . $clave . "</td>";
+                    echo "<td><a href='http://localhost/colegio_pdo/lista_alumno_1.php?sort=ASC&order=".$clave."'>" . str_replace ("curso_id","Nº Curso",$clave) . "</a</td>";
                 } else if ($clave == 'fecha_nacimiento' || 'fecha_alta'){
-                    echo "<td style='text-align: center'>" . str_replace ("fecha_","Fecha de ",$clave) . "</td>";
+                    echo "<td style='text-align: center'><a href='http://localhost/colegio_pdo/lista_alumno_1.php?sort=ASC&order=".$clave."'>" . str_replace ("fecha_","Fecha de ",$clave) . "</a></td>";
                 } else {
-                    echo "<td>" . $clave . "</td>";
+                    echo "<td><a href='http://localhost/colegio_pdo/lista_alumno_1.php?sort=".$sort."ASC&order=".$clave."'>" . $clave . "</a></td>";
                 }
             }
             
@@ -108,22 +132,5 @@
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/colreorder/1.3.3/js/dataTables.colReorder.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
-        <script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/datetime-moment.js"></script>
-        <script>
-            $(document).ready(function () {
-                $.fn.dataTable.moment ('DD-MM-YYYY'),
-                $('#mitabla').dataTable({
-                    "language": {
-                        "url": "https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-                    },
-                    "lengthMenu": [50, 10, 25],
-                    "colReorder": true
-                });
-            });
-            
-        </script>
     </body>
 </html>

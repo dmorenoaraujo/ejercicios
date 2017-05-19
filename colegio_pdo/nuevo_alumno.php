@@ -33,10 +33,11 @@
                 
                 move_uploaded_file($_FILES['adjuntos']['tmp_name'], 'uploads/'. $nombreAdjunto .'.'.$ext);
 
-                $sql = "INSERT INTO alumno (nombre,apellidos,fecha_nacimiento,curso_id,nota,adjunto) 
+                $sql = "INSERT INTO alumno (nombre,apellidos,dni,fecha_nacimiento,curso_id,nota,adjunto) 
                         VALUES (
                             '" . $_POST['nombre'] . "',
                             '" . $_POST['apellidos']. "',
+                            '" . $_POST['dni']. "',    
                             '" . date ("Y-m-d", strtotime ($_POST['fecha_nacimiento'])). "',
                             '" . $_POST['curso_id']. "',
                             '" . str_replace (",",".",$_POST['nota']). "', 
@@ -61,11 +62,8 @@
         </div>
 
 
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-        </script>
+        
     </body>
 </html>

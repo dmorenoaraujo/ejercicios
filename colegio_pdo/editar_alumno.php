@@ -98,7 +98,7 @@
                     } else if ($clave == 'fecha_nacimiento'){
                         echo "<div class='form-group row'>";
                         echo "<label for='".$clave."'>".$clave."</label>";
-                        echo "<input class='form-control' type='text' name='".$clave."' id='fecha' value='". date ("d/m/Y", strtotime ($valor))."'>";
+                        echo "<input class='form-control' type='text' name='".$clave."' id='fecha' value='". date ("d-m-Y", strtotime ($valor))."'>";
                         echo "</div>";
                     } else {
                         echo "<div class='form-group row'>";
@@ -134,7 +134,7 @@
                     changeMonth: true,
                     changeYear: true,
                     showAnim: 'bounce', // con esta línea añadimos animación al datepicker
-                    
+                    dateFormat: 'dd-mm-yy',
                 });
                 // con este comando tambien se puede hacer la animación de datepicker $( "#fecha" ).datepicker( "option", "showAnim", "bounce" );
             } );
