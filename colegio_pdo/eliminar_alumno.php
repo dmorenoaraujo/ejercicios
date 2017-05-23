@@ -31,7 +31,7 @@
             header('Location: '.$_SERVER['HTTP_REFERER']); // Aqui especificamos que vuelva a la url de la que ha venido 
 
             ?>
-            <button class="btn btn-info" onclick="location.href='lista_alumno.php'" type="button">Listado de alumnos</button>
+            <button class="btn btn-info" onclick="location.href='lista_alumno_sin_datatable.php'" type="button">Listado de alumnos</button>
         </div>
 
 

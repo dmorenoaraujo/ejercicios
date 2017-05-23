@@ -64,7 +64,7 @@
                 <input class="form-control" type="file" name="adjuntos" id="ficheros">
                 <input type="submit" value="Enviar">    
             </form>
-            <button class="btn btn-info" onclick="location.href='lista_alumno.php'" type="button">Listado de alumnos</button>
+            <button class="btn btn-info" onclick="location.href='lista_alumno_sin_datatable.php'" type="button">Listado de alumnos</button>
         </div>
 
 
@@ -80,7 +80,7 @@
                 $( "#fecha" ).datepicker({
                     changeMonth: true,
                     changeYear: true,
-                    showAnim: 'bounce' // con esta línea añadimos animación al datepicker
+                    showAnim: 'bounce', // con esta línea añadimos animación al datepicker
                     dateFormat:'dd-mm-yy'       
                 });
                 // con este comando tambien se puede hacer la animación de datepicker $( "#fecha" ).datepicker( "option", "showAnim", "bounce" );
