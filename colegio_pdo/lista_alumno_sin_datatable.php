@@ -23,15 +23,14 @@
             <h1><a href="lista_alumno_sin_datatable.php">ALUMNOS DEL COLEGIO CON QUERY</a></h1>
 
             <?php
-            //ini_set('display_errors',1);
-            //ini_set('diplay_startup_errors',1);
-            //error_reporting(E_ALL);
+            ini_set('display_errors',1);
+            ini_set('diplay_startup_errors',1);
+            error_reporting(E_ALL);
                 
             $db = new PDO('mysql:host=localhost;dbname=colegio;charset=utf8','root','P15!1754123m');
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            $sort=isset($_GET[sort])?$_GET[sort]:'ASC';
-            $columsort=isset($_GET[columsort])?$_GET[columsort]:'id';
+            
             
             
             $sql= "SELECT COUNT(*) from alumno";
@@ -43,12 +42,16 @@
                 echo $e->getMessage();
                 return false;
             }            
+            $sort=isset($_GET['sort'])?$_GET['sort']:'ASC';
+            $columsort=isset($_GET['columsort'])?$_GET['columsort']:'id';
             $numTotalAlumnos = $st->fetch(PDO::FETCH_ASSOC);
             $numAlumnosPagina = 4;
             $numPaginas= ceil($numTotalAlumnos ['COUNT(*)']/ $numAlumnosPagina);
-            $paginaActual=isset($_GET[pagina])?$_GET[pagina]:1;
+            $paginaActual=isset($_GET['pagina'])?$_GET['pagina']:1;
+            
+            
             //LEEMOS LOS DATOS DE MYSQL, ORDENAMOS Y PAGINAMOS SI SE PASAN DATOS EN $_GET
-            if ( $_GET[columsort] == NULL ){
+            if ( $columsort == NULL ){
                 $sql = "SELECT * FROM alumno LIMIT ".$numAlumnosPagina." OFFSET ".($paginaActual-1)*$numAlumnosPagina;
             } else {
                 $sql = "SELECT * FROM alumno ".
@@ -65,42 +68,60 @@
             }
             
             $primerafila= $st->fetch(PDO::FETCH_ASSOC);
-            echo '<table id="mitabla" class="display" width="100%" cellspacing="0">';
-            echo "<thead>";
-            echo "<tr>";
+            ?>
+            <table id="mitabla" class="display" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+            <?php    
             //ESCRIBIMOS LAS CABECERAS
             foreach ($primerafila as $clave => $nombrecolumna){
                 //COMPROBAMOS SI ES NECESARIO PERMUTAR EL TIPO DE ORDENACIÓN 
-                if($_GET[columsort]==$clave){  
-                    if ($_GET[sort]=='ASC'){
-                        $togglesort='DESC';
-                    } else {
-                        $togglesort='ASC';
-                    }
+                if($columsort==$clave){
+                    $togglesort=($sort=='ASC')?'DESC':'ASC';
                 } else {
                     $togglesort='ASC';
                 }
                 //PINTAMOS CABECERAS CON LINKS DE ORDENACIÓN
-                if ($clave == 'curso_id'){
-                    echo "<td><a href='http://localhost/colegio_pdo/lista_alumno_sin_datatable.php?sort=".$togglesort."&columsort=".$clave."'>" . str_replace ("curso_id","Nº Curso",$clave) . "</a</td>";
-                } else if ($clave == 'fecha_nacimiento' || 'fecha_alta'){
-                    echo "<td style='text-align: center'><a href='http://localhost/colegio_pdo/lista_alumno_sin_datatable.php?sort=".$togglesort."&columsort=".$clave."'>" . str_replace ("fecha_","Fecha de ",$clave) . "</a></td>";
-                } else {
-                    echo "<td><a href='http://localhost/colegio_pdo/lista_alumno_sin_datatable.php?sort=".$togglesort."&columsort=".$clave."'>" . $clave . "</a></td>";
-                }
+                if ($clave == 'curso_id'){?>
+                    <td>
+                        <a href='http://localhost/colegio_pdo/lista_alumno_sin_datatable.php?sort=<?php echo $togglesort ?>
+                           &columsort=<?php echo $clave ?>'>
+                            <?php echo str_replace ("curso_id","Nº Curso",$clave) ?>
+                        </a>
+                    </td>
+           <?php} else if ($clave == 'fecha_nacimiento' || 'fecha_alta'){?>
+                    <td style='text-align: center'>
+                        <a href='http://localhost/colegio_pdo/lista_alumno_sin_datatable.php?sort=<?php echo $togglesort ?>
+                           &columsort=<?php echo $clave ?>'>
+                            <?php echo str_replace ("fecha_","Fecha de ",$clave) ?>
+                        </a>
+                    </td>
+           <?php} else { ?>
+                    <td>
+                        <a href='http://localhost/colegio_pdo/lista_alumno_sin_datatable.php?sort=<?php echo $togglesort ?>
+                           &columsort=<?php echo $clave ?>'>
+                            <?php echo $clave ?>
+                        </a>
+                    </td>
+            <?php
+                  }
             }
-            echo "<td>Acciones</td></tr>";
-            echo "</thead>";
-            echo "<tbody>";
+            ?>
+            
+            <td>Acciones</td>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
             listar($primerafila);//PINTAMOS EL PRIMER REGISTRO DE MYSQL
             //RECORREMOS EL RESTO DE REGISTROS DE MYSQL
             while ($fila=$st->fetch(PDO::FETCH_ASSOC)){
                 listar($fila);
             }
-            echo "</tbody>";
-            echo "</table>";
-            
-            
+            ?>
+            </tbody>
+            </table>
+            <?php
             //LINKS DE PAGINACIÓN DESHABILITANDO LOS INUTILES O INCOHERENTES
             if($paginaActual==1){
                 echo "<a style='pointer-events:none' href='lista_alumno_sin_datatable.php?pagina=1&sort=".$sort."&columsort=".$columsort."'><<</a>";
@@ -113,7 +134,7 @@
                     }
                     
                 }
-                echo "<a href='lista_alumno_sin_datatable.php?pagina=".($_GET[pagina]+1)."&sort=".$sort."&columsort=".$columsort."'> > </a>";
+                echo "<a href='lista_alumno_sin_datatable.php?pagina=".($paginaActual+1)."&sort=".$sort."&columsort=".$columsort."'> > </a>";
                 echo "<a href='lista_alumno_sin_datatable.php?pagina=".$numPaginas."&sort=".$sort."&columsort=".$columsort."'> >> </a>";
             } else if ($paginaActual==$numPaginas){
                 echo "<a href='lista_alumno_sin_datatable.php?pagina=1&sort=".$sort."&columsort=".$columsort."'><<</a>";
@@ -126,7 +147,7 @@
                     }
                     
                 }
-                echo "<a style='pointer-events:none' href='lista_alumno_sin_datatable.php?pagina=".($_GET[pagina]+1)."&sort=".$sort."&columsort=".$columsort."'> > </a>";
+                echo "<a style='pointer-events:none' href='lista_alumno_sin_datatable.php?pagina=".($paginaActual+1)."&sort=".$sort."&columsort=".$columsort."'> > </a>";
                 echo "<a style='pointer-events:none' href='lista_alumno_sin_datatable.php?pagina=".$numPaginas."&sort=".$sort."&columsort=".$columsort."'> >> </a>";
             } else {
                 echo "<a href='lista_alumno_sin_datatable.php?pagina=1&sort=".$sort."&columsort=".$columsort."'><<</a>";
@@ -139,7 +160,7 @@
                     }
                     
                 }
-                echo "<a href='lista_alumno_sin_datatable.php?pagina=".($_GET[pagina]+1)."&sort=".$sort."&columsort=".$columsort."'> > </a>";
+                echo "<a href='lista_alumno_sin_datatable.php?pagina=".($paginaActual+1)."&sort=".$sort."&columsort=".$columsort."'> > </a>";
                 echo "<a href='lista_alumno_sin_datatable.php?pagina=".$numPaginas."&sort=".$sort."&columsort=".$columsort."'> >> </a>";
             }       
             //FUNCION PARA LISTADO DE REGISTROS DE MYSQL
