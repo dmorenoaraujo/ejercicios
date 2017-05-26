@@ -32,7 +32,17 @@
             
             //mysqli_set_charset($conn, 'utf8');
             
-            $sql = "SELECT * FROM alumno";
+            $sql = "SELECT "
+                    . "alumno.id,"
+                    . "alumno.nombre as nombre_alumno,"
+                    . "alumno.apellidos,"
+                    . "alumno.dni,"
+                    . "alumno.nota,"
+                    . "alumno.fecha_nacimiento,"
+                    . "alumno.adjunto,"
+                    . "curso.nombre as nombre_curso"
+                    . " FROM alumno"
+                    . " JOIN curso ON alumno.curso_id=curso.id";
 
             //$result = $conn->query($sql);
             
@@ -52,8 +62,6 @@
             echo "<thead>";
             echo "<tr>";
             foreach ($primerafila as $clave => $nombrecolumna){
-                //var_dump ($clave);
-                //var_dump ($nombrecolumna);
                 if ($clave == 'curso_id'){
                     echo "<td>" . str_replace ("curso_id","Nº Curso",$clave) . "</td>";
                 } else if ($clave == 'nota'){
@@ -86,14 +94,13 @@
             function listar($item){
                 echo "<tr>";
                 echo "<td>".$item['id']."</td>";
-                echo "<td>".$item['curso_id']."</td>";
-                echo "<td>".$item['nombre']."</td>";
+                echo "<td>".$item['nombre_alumno']."</td>";
                 echo "<td>".$item['apellidos']."</td>";
                 echo "<td>".$item['dni']."</td>";
                 echo "<td style='text-align:right'>". $nota = number_format($item['nota'],2,',','.') . "</td>"; 
                 echo "<td  style='text-align: center'>". date ("d-m-Y", strtotime ($item['fecha_nacimiento']))."</td>";
                 echo "<td><img src='uploads/".$item['adjunto']."'></td>";
-                echo "<td>".$item['fecha_alta']."</td>";
+                echo "<td>".$item['nombre_curso']."</td>";
                 echo "<td><a href='editar_alumno.php?id=".$item['id']."'>Editar</a>"
                      ."<br><a href='eliminar_alumno.php?id=".$item['id']."'>Eliminar</a></td>";
                 echo "</tr>";                

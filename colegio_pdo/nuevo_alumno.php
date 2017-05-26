@@ -26,9 +26,9 @@
                 $nombreAdjunto = md5(uniqid());
                 
                 $ext = end(explode(".", $_FILES['adjuntos']['name']));
-                
-                var_dump($ext);
-                var_dump($_FILES);
+                var_dump($_POST);
+                //var_dump($ext);
+                //var_dump($_FILES);
                 //var_dump($nombreAdjunto);
                 
                 move_uploaded_file($_FILES['adjuntos']['tmp_name'], 'uploads/'. $nombreAdjunto .'.'.$ext);

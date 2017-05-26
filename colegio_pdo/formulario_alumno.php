@@ -33,9 +33,6 @@
                 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 
                 $sql = "SELECT * FROM curso";
-                
-                //$result = $conn->query($sql);
-                
                 try {
                     $st = $db->prepare($sql);
                     $st->execute();
@@ -43,25 +40,38 @@
                     echo $e->getMessage();
                     return false;
                 }
-                
-                
-                
-                
                 echo '<select id="curso" name="curso_id">
-                        <option selected disabled>Elija</option>'
-                ;
+                        <option selected disabled>Elija</option>';
                             while ($opcion=$st->fetch(PDO::FETCH_ASSOC)){
                                 echo '<option value="'.$opcion['id'].'">'.$opcion['nombre'].'</option>';
                             }
                 echo   '</select>';
-                //$conn->close();
-
                 ?>
                 <br>
                 <label for="nota">Nota</label>
                 <input class="form-control" type="text" name="nota" id="nota" placeholder="Nota">
                 <label for="ficheros">Añadir imagenes</label>
                 <input class="form-control" type="file" name="adjuntos" id="ficheros">
+                <?php 
+                $sql = "SELECT * FROM actividad_extra";
+                try {
+                    $st = $db->prepare($sql);
+                    $st->execute();
+                } catch (PDOException $e) {
+                    echo $e->getMessage();
+                    return false;
+                }
+                while ($fila=$st->fetch(PDO::FETCH_ASSOC)){ ?>
+                    
+                    <label for="<?php echo $fila['nombre'] ?>"><?php echo $fila['nombre'] ?> </label>
+                    <input type="checkbox" id="<?php echo $fila['nombre'] ?>"
+                           value="<?php echo $fila['id'] ?>" 
+                           name="actividad_extra[]">
+                    <br>
+                <?php    
+                }
+                ?>
+                
                 <input type="submit" value="Enviar">    
             </form>
             <button class="btn btn-info" onclick="location.href='lista_alumno_sin_datatable.php'" type="button">Listado de alumnos</button>
