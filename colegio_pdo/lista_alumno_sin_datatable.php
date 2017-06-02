@@ -169,7 +169,7 @@
                 echo "<td style='text-align: center'><img src='uploads/".$item['adjunto']."'></td>";
                 echo "<td style='text-align: center'>".$item['nombre_curso']."</td>";
                 echo "<td style='text-align: center'> <a href='editar_alumno.php?id=".$item['id']."'>Editar</a>"
-                     ."<br><a href='eliminar_alumno.php?id=".$item['id']."'>Eliminar</a></td>";
+                     ."<br><a class='eliminar' href='eliminar_alumno.php?id=".$item['id']."'>Eliminar</a></td>";
                 echo "</tr>";                 
             }
             ?>

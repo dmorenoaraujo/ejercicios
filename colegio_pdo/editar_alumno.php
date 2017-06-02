@@ -108,14 +108,58 @@
                     }
                     
                 }
-                
-                
+				?>
+			  
+			<h3>ACTIVIDADES EXTRAESCOLARES</h3>
+				
+				<?php
+				$sql = "SELECT actividad_extra_id FROM alumno_actividad WHERE alumno_id=".$_GET['id'];
+				
+				try {
+                    $st = $db->prepare($sql);
+                    $st->execute();
+                } catch (PDOException $e) {
+                    echo $e->getMessage();
+                    return false;
+                }
+				
+				/*$actividadesAlumno=array();
+				while ($fila = $st->fetch(PDO::FETCH_ASSOC)){
+				  $actividadesAlumno[]=$fila['actividad_extra_id'];  //con $actividadesAlumno[]= se van añadiendo registros al final del array
+				}*/
+				
+				$actividadesAlumno=$st->fetchAll(PDO::FETCH_COLUMN);
+				
+				$sql = "SELECT * FROM actividad_extra";
+                try {
+                    $st = $db->prepare($sql);
+                    $st->execute();
+                } catch (PDOException $e) {
+                    echo $e->getMessage();
+                    return false;
+                }
+				
+                while ($fila=$st->fetch(PDO::FETCH_ASSOC)){ 
+				  ?>
+                    
+                    <label for="<?php echo $fila['nombre'] ?>"><?php echo $fila['nombre'] ?> </label>
+              <?php if (in_array($fila['id'],$actividadesAlumno)){?>
+					  <input type="checkbox" id="<?php echo $fila['nombre'] ?>"
+							 value="<?php echo $fila['id'] ?>" 
+							 name="actividad_extra[]" checked>
+					  <br>
+			  <?php } else {?>
+					  <input type="checkbox" id="<?php echo $fila['nombre'] ?>"
+							 value="<?php echo $fila['id'] ?>" 
+							 name="actividad_extra[]">
+					  <br>
+					  
+					  
+				<?php	  
+					}
+				}
                 ?>
                 <input type="submit" value="Modificar">
-                
-                
-                
-                
             </form>
             <button class="btn btn-info" onclick="location.href='lista_alumno_sin_datatable.php'" type="button">Listado de alumnos</button>
         </div>

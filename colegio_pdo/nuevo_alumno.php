@@ -23,17 +23,19 @@
                 /*if ($conn->connect_errno != 0){
                   echo "ERROR DE CONEXIÓN, REVISE CREDENCIALES Y/O SERVIDOR";
                 }*/
+				$actividadesAnadidas = isset ($_POST['actividad_extra'])?$_POST['actividad_extra'] : array();
                 $nombreAdjunto = md5(uniqid());
-                
-                $ext = end(explode(".", $_FILES['adjuntos']['name']));
+				$explode = explode(".", $_FILES['adjuntos']['name']);
+                $ext = end($explode);
                 var_dump($_POST);
                 //var_dump($ext);
-                //var_dump($_FILES);
+                var_dump($_FILES);
                 //var_dump($nombreAdjunto);
-                
                 move_uploaded_file($_FILES['adjuntos']['tmp_name'], 'uploads/'. $nombreAdjunto .'.'.$ext);
 
-                $sql = "INSERT INTO alumno (nombre,apellidos,dni,fecha_nacimiento,curso_id,nota,adjunto) 
+                
+				try {
+				  $sql = "INSERT INTO alumno (nombre,apellidos,dni,fecha_nacimiento,curso_id,nota,adjunto) 
                         VALUES (
                             '" . $_POST['nombre'] . "',
                             '" . $_POST['apellidos']. "',
@@ -42,12 +44,24 @@
                             '" . $_POST['curso_id']. "',
                             '" . str_replace (",",".",$_POST['nota']). "', 
                             '" . $nombreAdjunto . '.' . $ext . "' )";
-                
-                try {
-                    $st = $db->prepare($sql);
-                    $st->execute();/*die('1');*/
+				  $st = $db->prepare($sql);
+				  $st->execute();
+				  
+				  $ultimoIdInsertado = $db->lastInsertId();
+				  
+				  
+				  
+				  $sql = "INSERT INTO alumno_actividad (alumno_id,actividad_extra_id)
+						  VALUES (?,?)";
+				  
+				  foreach ($actividadesAnadidas as $actividadExtra){
+					$st = $db->prepare($sql);
+					$st->execute(array($ultimoIdInsertado,$actividadExtra));
+					}
+				  $st = $db->prepare($sql);
+						 
                 } catch (PDOException $e) {
-                    echo $e->getMessage();/*die('2');*/
+                    echo $e->getMessage();
                     return false;
                 }
                 //var_dump($sql);
